@@ -1,26 +1,104 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 140 30% 98%;
+    --foreground: 140 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 140 30% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 140 30% 10%;
+    --primary: 142 70% 30%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 140 20% 92%;
+    --secondary-foreground: 140 30% 10%;
+    --muted: 140 20% 92%;
+    --muted-foreground: 140 10% 40%;
+    --accent: 142 70% 95%;
+    --accent-foreground: 142 70% 30%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 140 20% 90%;
+    --input: 140 20% 90%;
+    --ring: 142 70% 30%;
+    --radius: 0.5rem;
+
+    /* Chart colors */
+    --chart-1: 142 70% 40%;
+    --chart-2: 160 70% 40%;
+    --chart-3: 130 70% 40%;
+    --chart-4: 110 70% 40%;
+    --chart-5: 170 70% 40%;
+
+    /* Dashboard specific colors */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 140 30% 10%;
+    --sidebar-primary: 142 70% 30%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 142 70% 95%;
+    --sidebar-accent-foreground: 142 70% 30%;
+    --sidebar-border: 140 20% 90%;
+    --sidebar-ring: 142 70% 30%;
+    --sidebar-icon: 140 10% 40%;
+    --sidebar-icon-active: 142 70% 30%;
+    --sidebar-icon-active-bg: 142 70% 95%;
+    --navbar-bg: 0 0% 100%;
+    --navbar-border: 140 20% 90%;
+    --content-bg: 140 30% 97%;
+    --card-bg: 0 0% 100%;
+    --card-border: 140 20% 90%;
+  }
+
+  .dark {
+    --background: 140 30% 5%;
+    --foreground: 0 0% 98%;
+    --card: 140 30% 7%;
+    --card-foreground: 0 0% 98%;
+    --popover: 140 30% 7%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 142 70% 40%;
+    --primary-foreground: 140 30% 5%;
+    --secondary: 140 20% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 140 20% 15%;
+    --muted-foreground: 140 10% 70%;
+    --accent: 142 30% 15%;
+    --accent-foreground: 142 70% 40%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 140 20% 15%;
+    --input: 140 20% 15%;
+    --ring: 142 70% 40%;
+
+    /* Dashboard specific colors */
+    --sidebar-background: 140 30% 7%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 142 70% 40%;
+    --sidebar-primary-foreground: 140 30% 5%;
+    --sidebar-accent: 142 30% 15%;
+    --sidebar-accent-foreground: 142 70% 40%;
+    --sidebar-border: 140 20% 15%;
+    --sidebar-ring: 142 70% 40%;
+    --sidebar-icon: 140 10% 70%;
+    --sidebar-icon-active: 142 70% 40%;
+    --sidebar-icon-active-bg: 142 30% 15%;
+    --navbar-bg: 140 30% 7%;
+    --navbar-border: 140 20% 15%;
+    --content-bg: 140 30% 4%;
+    --card-bg: 140 30% 7%;
+    --card-border: 140 20% 15%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .analytics-gradient {
+    background: linear-gradient(to right, #2f7b2f, #3a9d3a);
+  }
 }
