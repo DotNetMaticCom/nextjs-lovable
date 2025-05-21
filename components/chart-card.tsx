@@ -87,7 +87,14 @@ export function ChartCard({
           </PieChart>
         )
       default:
-        return null
+        // Return an empty LineChart instead of null to satisfy TypeScript
+        return (
+          <LineChart data={[]} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis dataKey="name" />
+            <YAxis />
+          </LineChart>
+        )
     }
   }
 
