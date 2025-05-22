@@ -1,0 +1,12 @@
+
+> my-v0-project@0.1.0 dev /app
+> next dev
+
+   [1m[38;2;173;127;168m▲ Next.js 15.2.4[39m[22m
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 2.3s
+
+Session terminated, killing shell...
