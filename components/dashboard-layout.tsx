@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { IconSidebar } from "./icon-sidebar"
 import { MainSidebar } from "./main-sidebar"
 import { Navbar } from "./navbar"
@@ -110,6 +110,9 @@ export function DashboardLayout() {
   // State for sidebar visibility
   const [sidebarVisible, setSidebarVisible] = useState(true)
 
+  // Ref for the sidebar container
+  const sidebarRef = useRef<HTMLDivElement>(null)
+
   // Get theme context
   const { theme } = useTheme()
 
@@ -118,21 +121,46 @@ export function DashboardLayout() {
     setSidebarVisible(!sidebarVisible)
   }
 
+  // Store sidebar state in localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("sidebarVisible", sidebarVisible.toString())
+    }
+  }, [sidebarVisible])
+
+  // Retrieve sidebar state from localStorage on initial load
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedState = localStorage.getItem("sidebarVisible")
+      if (storedState !== null) {
+        setSidebarVisible(storedState === "true")
+      }
+    }
+  }, [])
+
   return (
     <div className="flex h-screen overflow-hidden bg-background transition-colors duration-300">
       <IconSidebar activeIcon={activeIcon} setActiveIcon={setActiveIcon} />
 
-      {/* Main sidebar with transition for collapsing */}
+      {/* Main sidebar with improved transition for collapsing */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "w-[260px] opacity-100" : "w-0 opacity-0 overflow-hidden"
-        }`}
+        ref={sidebarRef}
+        className={`fixed-width-transition overflow-hidden border-r border-[hsl(var(--sidebar-border))] bg-[hsl(var(--sidebar-bg))] h-full z-10 shadow-sm`}
+        style={{
+          width: sidebarVisible ? "260px" : "0px",
+          visibility: sidebarVisible ? "visible" : "hidden",
+        }}
       >
         <MainSidebar activeSection={activeIcon} />
       </div>
 
       {/* Content area that expands when sidebar collapses */}
-      <div className="flex-1 flex flex-col bg-[hsl(var(--content-bg))] relative transition-all duration-300">
+      <div
+        className="flex-1 flex flex-col bg-[hsl(var(--content-bg))] relative transition-all duration-300"
+        style={{
+          marginLeft: sidebarVisible ? "0" : "0",
+        }}
+      >
         <Navbar toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
         <div className="flex-1 overflow-y-auto p-6">
           {/* Context area content */}

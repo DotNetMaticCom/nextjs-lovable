@@ -97,8 +97,59 @@
   }
 }
 
+@layer components {
+  .navbar-item-hover {
+    @apply hover:bg-opacity-10 hover:bg-primary transition-colors duration-150;
+  }
+
+  .navbar-item-hover:hover {
+    color: hsl(var(--primary));
+  }
+
+  .navbar-dropdown {
+    @apply absolute right-0 mt-1 w-64 bg-card rounded-md shadow-lg border border-border z-50 overflow-hidden;
+    animation: dropdown-appear 0.2s ease-out forwards;
+    transform-origin: top right;
+  }
+
+  .navbar-badge {
+    @apply absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full;
+    animation: pulse 2s infinite;
+  }
+}
+
 @layer utilities {
   .analytics-gradient {
     background: linear-gradient(to right, #2f7b2f, #3a9d3a);
+  }
+
+  .fixed-width-transition {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+  }
+
+  @keyframes dropdown-appear {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 4px rgba(220, 38, 38, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    }
   }
 }
