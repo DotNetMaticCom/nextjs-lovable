@@ -57,7 +57,8 @@ const emails: Email[] = [
       initial: "T",
       color: "bg-teal-100",
     },
-    subject: "2025's Best WP Themes - Easy To Use",
+    // eslint-disable-next-line react/no-unescaped-entities
+    subject: `2025's Best WP Themes - Easy To Use`,
     preview: "ThemeForest 45,000+ WP Themes ...",
     date: "22:50",
     read: false,
@@ -335,7 +336,7 @@ const emails: Email[] = [
         <div className="text-3xl font-bold mb-6">814770</div>
         <p className="text-sm text-muted-foreground mb-4">This code expires in 10 minutes.</p>
         <p className="text-sm text-muted-foreground text-center">
-          If you didn't request to sign in to Cursor, you can safely ignore this email. Someone else might have typed
+          If you didn&apos;t request to sign in to Cursor, you can safely ignore this email. Someone else might have typed
           your email address by mistake.
         </p>
       </div>
@@ -370,7 +371,7 @@ const emails: Email[] = [
         <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md mb-6">Reset Password</button>
         <p className="text-sm text-muted-foreground mb-4">This link expires in 15 minutes.</p>
         <p className="text-sm text-muted-foreground text-center">
-          If you didn't request a password reset, you can safely ignore this email. Someone else might have typed your
+          If you didn&apos;t request a password reset, you can safely ignore this email. Someone else might have typed your
           email address by mistake.
         </p>
       </div>
@@ -393,7 +394,7 @@ const emails: Email[] = [
     content: (
       <div>
         <p className="mb-4">Hello,</p>
-        <p className="mb-4">Here's your Cloudflare usage summary for April 2025:</p>
+        <p className="mb-4">Here&apos;s your Cloudflare usage summary for April 2025:</p>
         <div className="bg-secondary p-4 rounded-md mb-4">
           <h3 className="font-medium mb-2">Usage Statistics</h3>
           <ul className="space-y-2">
@@ -409,7 +410,7 @@ const emails: Email[] = [
           </ul>
         </div>
         <p className="mb-4">
-          Your website performance has improved by 15% compared to last month. We've also blocked 12,345 threats,
+          Your website performance has improved by 15% compared to last month. We&apos;ve also blocked 12,345 threats,
           ensuring your website remains secure.
         </p>
         <p>
@@ -565,7 +566,7 @@ export function EmailDashboard() {
           {/* Email header */}
           <div className="p-4 border-b border-border">
             <div className="flex justify-between items-start mb-4">
-              <h2 className="text-xl font-medium">{selectedEmail.subject}</h2>
+              <h2 className="text-xl font-medium">{`${selectedEmail.subject}`}</h2>
               <div className="flex items-center">
                 <button className="p-1.5 rounded-md hover:bg-secondary transition-colors" title="Archive">
                   <Archive size={18} />
@@ -660,7 +661,7 @@ export function EmailDashboard() {
               <ChevronDown size={18} />
             </button>
             <div className="flex-1">
-              <h2 className="font-medium truncate">{selectedEmail.subject}</h2>
+              <h2 className="font-medium truncate">{`${selectedEmail.subject}`}</h2>
             </div>
             <div className="flex items-center">
               <button className="p-1.5 rounded-md hover:bg-secondary transition-colors" title="Archive">
