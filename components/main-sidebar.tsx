@@ -51,6 +51,10 @@ import {
   GitPullRequest,
   CheckCircle,
   AlertCircle,
+  User,
+  Video,
+  Calendar,
+  MessageSquare,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -71,6 +75,7 @@ export function MainSidebar({ activeSection }: MainSidebarProps) {
         {activeSection === "uploads" && <UploadsSection />}
         {activeSection === "preferences" && <PreferencesSection />}
         {activeSection === "email" && <EmailSection />}
+        {activeSection === "chat" && <ChatSection />}
       </div>
 
       {/* Team info section - fixed at bottom */}
@@ -1070,5 +1075,272 @@ function PreferencesSection() {
         </div>
       )}
     </div>
+  )
+}
+
+// Chat Section
+function ChatSection() {
+  const [directMessagesOpen, setDirectMessagesOpen] = useState(true)
+  const [groupChatsOpen, setGroupChatsOpen] = useState(true)
+  const [contactsOpen, setContactsOpen] = useState(false)
+  const [meetingsOpen, setMeetingsOpen] = useState(false)
+
+  return (
+    <>
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div className="flex items-center justify-between px-3 py-3">
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Chat</h2>
+          <div className="flex items-center space-x-1">
+            <button className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]">
+              <Plus size={14} />
+            </button>
+            <button className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]">
+              <Search size={14} />
+            </button>
+          </div>
+        </div>
+
+        <div className="px-2 pb-1">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search messages..."
+              className="w-full h-8 px-8 py-2 text-sm bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] rounded-md focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))]"
+            />
+            <Search
+              className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[hsl(var(--muted-foreground))]"
+              size={14}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Direct Messages Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setDirectMessagesOpen(!directMessagesOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Direct Messages</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setDirectMessagesOpen(!directMessagesOpen)
+            }}
+          >
+            {directMessagesOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {directMessagesOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center justify-between px-2 py-1.5 text-sm text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))] rounded-md">
+              <div className="flex items-center">
+                <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                  <span className="text-xs font-medium">JD</span>
+                </div>
+                <span>John Doe</span>
+              </div>
+              <span className="text-xs bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-1.5 py-0.5 rounded-full">
+                3
+              </span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <span className="text-xs font-medium">SJ</span>
+              </div>
+              <span>Sarah Johnson</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center mr-2">
+                <span className="text-xs font-medium">MB</span>
+              </div>
+              <span>Michael Brown</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-pink-100 flex items-center justify-center mr-2">
+                <span className="text-xs font-medium">EW</span>
+              </div>
+              <span>Emily Wilson</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center mr-2">
+                <span className="text-xs font-medium">RC</span>
+              </div>
+              <span>Robert Chen</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Group Chats Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setGroupChatsOpen(!groupChatsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Group Chats</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setGroupChatsOpen(!groupChatsOpen)
+            }}
+          >
+            {groupChatsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {groupChatsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center justify-between px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <div className="flex items-center">
+                <div className="w-7 h-7 rounded-md bg-blue-500 flex items-center justify-center mr-2">
+                  <Users size={14} className="text-white" />
+                </div>
+                <span>Marketing Team</span>
+              </div>
+              <span className="text-xs bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-1.5 py-0.5 rounded-full">
+                2
+              </span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-md bg-green-500 flex items-center justify-center mr-2">
+                <Users size={14} className="text-white" />
+              </div>
+              <span>Product Development</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-md bg-purple-500 flex items-center justify-center mr-2">
+                <Users size={14} className="text-white" />
+              </div>
+              <span>Research Team</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-md bg-orange-500 flex items-center justify-center mr-2">
+                <Users size={14} className="text-white" />
+              </div>
+              <span>Sales Department</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Contacts Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setContactsOpen(!contactsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Contacts</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setContactsOpen(!contactsOpen)
+            }}
+          >
+            {contactsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {contactsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center mr-2">
+                <User size={14} className="text-gray-600" />
+              </div>
+              <span>All Contacts</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                <Star size={14} className="text-blue-600" />
+              </div>
+              <span>Favorites</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <Users size={14} className="text-green-600" />
+              </div>
+              <span>Teams</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Meetings Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setMeetingsOpen(!meetingsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Meetings</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setMeetingsOpen(!meetingsOpen)
+            }}
+          >
+            {meetingsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {meetingsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center mr-2">
+                <Video size={14} className="text-purple-600" />
+              </div>
+              <span>New Meeting</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                <Calendar size={14} className="text-blue-600" />
+              </div>
+              <span>Scheduled</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <History size={14} className="text-green-600" />
+              </div>
+              <span>Recent</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Status Section */}
+      <div className="mt-3 px-3">
+        <div className="bg-[hsl(var(--secondary))] rounded-md p-3">
+          <div className="flex items-center mb-2">
+            <MessageSquare size={16} className="mr-2 text-[hsl(var(--primary))]" />
+            <h3 className="text-sm font-medium">Your Status</h3>
+          </div>
+          <div className="flex items-center">
+            <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2 relative">
+              <span className="text-xs font-medium">JD</span>
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[hsl(var(--secondary))]"></span>
+            </div>
+            <div>
+              <p className="text-sm font-medium">Active</p>
+              <p className="text-xs text-[hsl(var(--muted-foreground))]">Available for chat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }

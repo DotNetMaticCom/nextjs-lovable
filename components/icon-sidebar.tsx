@@ -1,6 +1,19 @@
 "use client"
 
-import { Home, Layers, BarChart2, Sliders, Edit3, Folder, Upload, Settings, Sun, Moon, Mail } from "lucide-react"
+import {
+  Home,
+  Layers,
+  BarChart2,
+  Sliders,
+  Edit3,
+  Folder,
+  Upload,
+  Settings,
+  Sun,
+  Moon,
+  Mail,
+  MessageSquare,
+} from "lucide-react"
 import Image from "next/image"
 import { Tooltip } from "./tooltip"
 import { useTheme } from "./theme-provider"
@@ -23,6 +36,7 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
     { id: "documents", icon: Folder, label: "Documents" },
     { id: "uploads", icon: Upload, label: "Uploads" },
     { id: "email", icon: Mail, label: "Email", badge: 12 },
+    { id: "chat", icon: MessageSquare, label: "Chat", badge: 5 },
   ]
 
   return (

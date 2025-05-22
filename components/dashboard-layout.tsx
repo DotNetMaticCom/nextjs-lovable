@@ -7,6 +7,7 @@ import { MainSidebar } from "./main-sidebar"
 import { Navbar } from "./navbar"
 import { EmailDashboard } from "./email-dashboard"
 import { DocumentsDashboard } from "./documents-dashboard"
+import { ChatDashboard } from "./chat-dashboard"
 
 export function DashboardLayout() {
   // State for active sidebar item
@@ -85,6 +86,8 @@ export function DashboardLayout() {
             <EmailDashboard />
           ) : activeIcon === "documents" ? (
             <DocumentsDashboard />
+          ) : activeIcon === "chat" ? (
+            <ChatDashboard />
           ) : (
             <div className="p-6">
               {/* Context area content */}
