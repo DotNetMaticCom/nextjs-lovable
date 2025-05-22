@@ -33,9 +33,10 @@ import { useTheme } from "./theme-provider"
 type NavbarProps = {
   toggleSidebar: () => void
   sidebarVisible: boolean
+  openSidebar: () => void
 }
 
-export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
+export function Navbar({ toggleSidebar, sidebarVisible, openSidebar }: NavbarProps) {
   const { theme, colorScheme, toggleTheme, setColorScheme } = useTheme()
 
   const [searchFocused, setSearchFocused] = useState(false)
@@ -166,13 +167,22 @@ export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
     { id: "security", name: "Security", icon: Shield },
   ]
 
+  // Handle sidebar toggle based on current state
+  const handleSidebarToggle = () => {
+    if (sidebarVisible) {
+      toggleSidebar() // If sidebar is visible, collapse it
+    } else {
+      openSidebar() // If sidebar is hidden, expand it
+    }
+  }
+
   return (
     <div className="h-16 border-b border-border bg-card flex items-center justify-between px-4 sticky top-0 z-20 transition-colors duration-300 shadow-sm">
       {/* Left section */}
       <div className="flex items-center">
         {/* Sidebar toggle button with animation */}
         <button
-          onClick={toggleSidebar}
+          onClick={handleSidebarToggle}
           className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:bg-primary hover:bg-opacity-10 hover:text-primary rounded-md transition-all duration-200 mr-2"
           aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
         >

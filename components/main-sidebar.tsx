@@ -23,6 +23,34 @@ import {
   Sliders,
   HelpCircle,
   Folder,
+  Mail,
+  Inbox,
+  Send,
+  AlertTriangle,
+  Archive,
+  Trash2,
+  Star,
+  Tag,
+  FileImage,
+  FileSpreadsheet,
+  FileCode,
+  FileIcon as FilePdf,
+  FileArchive,
+  FileIcon as FilePresentation,
+  FileVideo,
+  FileAudio,
+  Share2,
+  Lock,
+  Bookmark,
+  History,
+  Download,
+  Cloud,
+  UserPlus,
+  GitBranch,
+  GitMerge,
+  GitPullRequest,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -42,6 +70,7 @@ export function MainSidebar({ activeSection }: MainSidebarProps) {
         {activeSection === "documents" && <DocumentsSection />}
         {activeSection === "uploads" && <UploadsSection />}
         {activeSection === "preferences" && <PreferencesSection />}
+        {activeSection === "email" && <EmailSection />}
       </div>
 
       {/* Team info section - fixed at bottom */}
@@ -70,7 +99,546 @@ export function MainSidebar({ activeSection }: MainSidebarProps) {
   )
 }
 
-// Individual section components
+// Enhanced Documents Section
+function DocumentsSection() {
+  const [myDocumentsOpen, setMyDocumentsOpen] = useState(true)
+  const [sharedDocumentsOpen, setSharedDocumentsOpen] = useState(true)
+  const [projectDocumentsOpen, setProjectDocumentsOpen] = useState(false)
+  const [documentTypesOpen, setDocumentTypesOpen] = useState(false)
+  const [workflowsOpen, setWorkflowsOpen] = useState(false)
+  const [tagsOpen, setTagsOpen] = useState(false)
+
+  return (
+    <>
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div className="flex items-center justify-between px-3 py-3">
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Document Center</h2>
+          <div className="flex items-center space-x-1">
+            <button className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]">
+              <Plus size={14} />
+            </button>
+            <button className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]">
+              <Search size={14} />
+            </button>
+          </div>
+        </div>
+
+        <div className="px-2 pb-1">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search documents..."
+              className="w-full h-8 px-8 py-2 text-sm bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] rounded-md focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))]"
+            />
+            <Search
+              className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[hsl(var(--muted-foreground))]"
+              size={14}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* My Documents Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setMyDocumentsOpen(!myDocumentsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">My Documents</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setMyDocumentsOpen(!myDocumentsOpen)
+            }}
+          >
+            {myDocumentsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {myDocumentsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))] rounded-md">
+              <FileText size={16} className="mr-2 text-[hsl(var(--sidebar-icon-active))]" />
+              <span>All Documents</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Clock size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Recent</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Star size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Favorites</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Bookmark size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Bookmarked</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <History size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Version History</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Trash2 size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Trash</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Shared Documents Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setSharedDocumentsOpen(!sharedDocumentsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Shared</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setSharedDocumentsOpen(!sharedDocumentsOpen)
+            }}
+          >
+            {sharedDocumentsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {sharedDocumentsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <Share2 size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Shared with Me</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <UserPlus size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Shared by Me</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Users size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Team Documents</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Lock size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Private Documents</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Project Documents Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setProjectDocumentsOpen(!projectDocumentsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Projects</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setProjectDocumentsOpen(!projectDocumentsOpen)
+            }}
+          >
+            {projectDocumentsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {projectDocumentsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <Folder size={16} className="mr-2 text-blue-500" />
+              <span>Marketing Campaign</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-green-500" />
+              <span>Product Development</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-purple-500" />
+              <span>Research & Analysis</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-orange-500" />
+              <span>Client Presentations</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-red-500" />
+              <span>Financial Reports</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Document Types Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setDocumentTypesOpen(!documentTypesOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Document Types</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setDocumentTypesOpen(!documentTypesOpen)
+            }}
+          >
+            {documentTypesOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {documentTypesOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <FileText size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Text Documents</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FileSpreadsheet size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Spreadsheets</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FilePresentation size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Presentations</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FilePdf size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>PDF Documents</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FileImage size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Images</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FileVideo size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Videos</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FileAudio size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Audio Files</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FileCode size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Code Files</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <FileArchive size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Archives</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Workflows Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setWorkflowsOpen(!workflowsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Workflows</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setWorkflowsOpen(!workflowsOpen)
+            }}
+          >
+            {workflowsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {workflowsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <GitBranch size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>In Progress</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <GitPullRequest size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Under Review</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <AlertCircle size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Needs Attention</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <GitMerge size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Pending Approval</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <CheckCircle size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Approved</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Tags Section */}
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setTagsOpen(!tagsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Tags</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setTagsOpen(!tagsOpen)
+            }}
+          >
+            {tagsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {tagsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <Tag size={16} className="mr-2 text-red-500" />
+              <span>Urgent</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-blue-500" />
+              <span>Important</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-green-500" />
+              <span>Completed</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-yellow-500" />
+              <span>In Progress</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-purple-500" />
+              <span>Draft</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Storage Section */}
+      <div className="mt-3 px-3">
+        <div className="bg-[hsl(var(--secondary))] rounded-md p-3">
+          <div className="flex items-center mb-2">
+            <Cloud size={16} className="mr-2 text-[hsl(var(--primary))]" />
+            <h3 className="text-sm font-medium">Document Storage</h3>
+          </div>
+          <div className="w-full h-2 bg-[hsl(var(--muted))] rounded-full overflow-hidden">
+            <div className="h-full bg-[hsl(var(--primary))]" style={{ width: "45%" }}></div>
+          </div>
+          <p className="text-xs text-[hsl(var(--muted-foreground))] mt-2">4.5 GB of 10 GB used</p>
+          <button className="w-full mt-2 text-xs text-[hsl(var(--primary))] flex items-center justify-center">
+            <Download size={12} className="mr-1" />
+            <span>Manage Storage</span>
+          </button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+// New Email Section
+function EmailSection() {
+  const [inboxOpen, setInboxOpen] = useState(true)
+  const [sentOpen, setSentOpen] = useState(false)
+  const [spamOpen, setSpamOpen] = useState(false)
+  const [foldersOpen, setFoldersOpen] = useState(false)
+  const [labelsOpen, setLabelsOpen] = useState(false)
+
+  return (
+    <>
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div className="flex items-center justify-between px-3 py-3">
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Email</h2>
+          <div className="flex items-center space-x-1">
+            <button className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]">
+              <Plus size={14} />
+            </button>
+            <button
+              className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+              onClick={() => setInboxOpen(!inboxOpen)}
+            >
+              {inboxOpen ? <Minus size={14} /> : <Plus size={14} />}
+            </button>
+          </div>
+        </div>
+
+        {inboxOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center justify-between px-2 py-1.5 text-sm text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))] rounded-md">
+              <div className="flex items-center">
+                <Inbox size={16} className="mr-2 text-[hsl(var(--sidebar-icon-active))]" />
+                <span>Inbox</span>
+              </div>
+              <span className="text-xs bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-1.5 py-0.5 rounded-full">
+                12
+              </span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Star size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Starred</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Send size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Sent</span>
+            </button>
+
+            <button className="w-full flex items-center justify-between px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <div className="flex items-center">
+                <AlertTriangle size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+                <span>Spam</span>
+              </div>
+              <span className="text-xs bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] px-1.5 py-0.5 rounded-full">
+                36
+              </span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Archive size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Archive</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Trash2 size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Trash</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setFoldersOpen(!foldersOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Folders</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setFoldersOpen(!foldersOpen)
+            }}
+          >
+            {foldersOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {foldersOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <Folder size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Work</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Personal</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Projects</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Folder size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
+              <span>Clients</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
+        <div
+          className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
+          onClick={() => setLabelsOpen(!labelsOpen)}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Labels</h2>
+          <button
+            className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
+            onClick={(e) => {
+              e.stopPropagation()
+              setLabelsOpen(!labelsOpen)
+            }}
+          >
+            {labelsOpen ? <Minus size={14} /> : <Plus size={14} />}
+          </button>
+        </div>
+
+        {labelsOpen && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md transition-colors">
+              <Tag size={16} className="mr-2 text-red-500" />
+              <span>Important</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-blue-500" />
+              <span>Business</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-green-500" />
+              <span>Personal</span>
+            </button>
+
+            <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
+              <Tag size={16} className="mr-2 text-yellow-500" />
+              <span>Urgent</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-3 px-3">
+        <div className="bg-[hsl(var(--secondary))] rounded-md p-3">
+          <div className="flex items-center mb-2">
+            <Mail size={16} className="mr-2 text-[hsl(var(--primary))]" />
+            <h3 className="text-sm font-medium">Email Storage</h3>
+          </div>
+          <div className="w-full h-2 bg-[hsl(var(--muted))] rounded-full overflow-hidden">
+            <div className="h-full bg-[hsl(var(--primary))]" style={{ width: "65%" }}></div>
+          </div>
+          <p className="text-xs text-[hsl(var(--muted-foreground))] mt-2">6.5 GB of 10 GB used</p>
+        </div>
+      </div>
+    </>
+  )
+}
+
+// Other sections remain the same
 function CampaignsSection() {
   const [campaignsOpen, setCampaignsOpen] = useState(true)
   const [adGroupsOpen, setAdGroupsOpen] = useState(true)
@@ -214,10 +782,9 @@ function CampaignsSection() {
   )
 }
 
-// Other section components remain the same structure but with updated color variables
-// I'll update the AnalyticsSection as an example since it's most relevant to the Analytics ID
-
+// Other section components remain the same
 function AnalyticsSection() {
+  // Implementation remains the same
   const [analyticsOpen, setAnalyticsOpen] = useState(true)
 
   return (
@@ -271,10 +838,8 @@ function AnalyticsSection() {
   )
 }
 
-// The rest of the section components would be updated similarly
-// For brevity, I'm not including all of them here, but they would follow the same pattern
-
 function LayersSection() {
+  // Implementation remains the same
   const [projectsOpen, setProjectsOpen] = useState(true)
 
   return (
@@ -323,6 +888,7 @@ function LayersSection() {
 }
 
 function SettingsSection() {
+  // Implementation remains the same
   const [settingsOpen, setSettingsOpen] = useState(true)
 
   return (
@@ -371,6 +937,7 @@ function SettingsSection() {
 }
 
 function EditorSection() {
+  // Implementation remains the same
   const [editorOpen, setEditorOpen] = useState(true)
 
   return (
@@ -413,50 +980,8 @@ function EditorSection() {
   )
 }
 
-function DocumentsSection() {
-  const [documentsOpen, setDocumentsOpen] = useState(true)
-
-  return (
-    <div className="border-b border-[hsl(var(--sidebar-border))] transition-colors duration-300">
-      <div
-        className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[hsl(var(--secondary))] transition-colors"
-        onClick={() => setDocumentsOpen(!documentsOpen)}
-      >
-        <h2 className="text-xs font-bold uppercase tracking-wide text-[hsl(var(--sidebar-fg))]">Documents</h2>
-        <button
-          className="text-[hsl(var(--sidebar-icon))] p-1 rounded-md hover:bg-[hsl(var(--sidebar-icon-active-bg))] hover:text-[hsl(var(--sidebar-icon-active))]"
-          onClick={(e) => {
-            e.stopPropagation()
-            setDocumentsOpen(!documentsOpen)
-          }}
-        >
-          {documentsOpen ? <Minus size={14} /> : <Plus size={14} />}
-        </button>
-      </div>
-
-      {documentsOpen && (
-        <div className="px-2 pb-1">
-          <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))] rounded-md">
-            <Folder size={16} className="mr-2 text-[hsl(var(--sidebar-icon-active))]" />
-            <span>All Files</span>
-          </button>
-
-          <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
-            <FileText size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
-            <span>Shared</span>
-          </button>
-
-          <button className="w-full flex items-center px-2 py-1.5 text-sm text-[hsl(var(--sidebar-fg))] hover:bg-[hsl(var(--secondary))] rounded-md mt-0.5 transition-colors">
-            <Clock size={16} className="mr-2 text-[hsl(var(--sidebar-icon))]" />
-            <span>Recent</span>
-          </button>
-        </div>
-      )}
-    </div>
-  )
-}
-
 function UploadsSection() {
+  // Implementation remains the same
   const [uploadsOpen, setUploadsOpen] = useState(true)
 
   return (
@@ -505,6 +1030,7 @@ function UploadsSection() {
 }
 
 function PreferencesSection() {
+  // Implementation remains the same
   const [preferencesOpen, setPreferencesOpen] = useState(true)
 
   return (

@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Layers, BarChart2, Sliders, Edit3, Folder, Upload, Settings, Sun, Moon } from "lucide-react"
+import { Home, Layers, BarChart2, Sliders, Edit3, Folder, Upload, Settings, Sun, Moon, Mail } from "lucide-react"
 import Image from "next/image"
 import { Tooltip } from "./tooltip"
 import { useTheme } from "./theme-provider"
@@ -22,6 +22,7 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
     { id: "editor", icon: Edit3, label: "Editor" },
     { id: "documents", icon: Folder, label: "Documents" },
     { id: "uploads", icon: Upload, label: "Uploads" },
+    { id: "email", icon: Mail, label: "Email", badge: 12 },
   ]
 
   return (
@@ -59,7 +60,7 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
           return (
             <Tooltip key={item.id} content={item.label} position="right">
               <button
-                className={`w-9 h-9 flex items-center justify-center rounded-md transition-all ${
+                className={`w-9 h-9 flex items-center justify-center rounded-md transition-all relative ${
                   isActive
                     ? "text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))]"
                     : "text-[hsl(var(--sidebar-icon))] hover:text-foreground hover:bg-[hsl(var(--secondary))]"
@@ -68,6 +69,11 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
                 aria-label={item.label}
               >
                 <Icon size={18} />
+                {item.badge && (
+                  <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-[10px] font-bold bg-red-500 text-white rounded-full">
+                    {item.badge > 99 ? "99+" : item.badge}
+                  </span>
+                )}
               </button>
             </Tooltip>
           )
