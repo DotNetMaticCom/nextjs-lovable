@@ -43,7 +43,7 @@ interface Message {
   timestamp: string
   status: "sent" | "delivered" | "read"
   attachments?: {
-    type: "image" | "file" | "location" | "audio" | "video"
+    type: "image" | "file" | "location" | "audio" | "video" | "calendar"
     url?: string
     name?: string
     size?: string
@@ -450,7 +450,7 @@ export function ChatDashboard() {
   }
 
   // Handle file attachment
-  const handleAttachment = (type: "image" | "file" | "location" | "audio" | "video") => {
+  const handleAttachment = (type: "image" | "file" | "location" | "audio" | "video" | "calendar") => {
     if (type === "image" || type === "file") {
       fileInputRef.current?.click()
     }
