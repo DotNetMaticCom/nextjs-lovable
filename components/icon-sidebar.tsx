@@ -25,10 +25,10 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
   ]
 
   return (
-    <div className="w-16 h-full bg-[hsl(var(--sidebar-bg))] border-r border-[hsl(var(--sidebar-border))] flex flex-col items-center z-20 transition-colors duration-300">
+    <div className="w-14 h-full bg-[hsl(var(--sidebar-bg))] border-r border-[hsl(var(--sidebar-border))] flex flex-col items-center z-20 transition-colors duration-300 shadow-sm">
       {/* App logo */}
-      <div className="w-10 h-10 rounded-lg analytics-gradient flex items-center justify-center mt-4 mb-6">
-        <div className="w-5 h-5 text-white">
+      <div className="w-8 h-8 rounded-lg analytics-gradient flex items-center justify-center mt-4 mb-5">
+        <div className="w-4 h-4 text-white">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M4 5.5C4 4.67157 4.67157 4 5.5 4H9.5C10.3284 4 11 4.67157 11 5.5V9.5C11 10.3284 10.3284 11 9.5 11H5.5C4.67157 11 4 10.3284 4 9.5V5.5Z"
@@ -51,15 +51,15 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
       </div>
 
       {/* Navigation icons */}
-      <div className="flex flex-col items-center space-y-6 mt-2">
+      <div className="flex flex-col items-center space-y-1 mt-1">
         {navIcons.map((item) => {
           const Icon = item.icon
           const isActive = activeIcon === item.id
 
           return (
-            <Tooltip key={item.id} content={item.label}>
+            <Tooltip key={item.id} content={item.label} position="right">
               <button
-                className={`w-10 h-10 flex items-center justify-center rounded-md transition-colors ${
+                className={`w-9 h-9 flex items-center justify-center rounded-md transition-all ${
                   isActive
                     ? "text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))]"
                     : "text-[hsl(var(--sidebar-icon))] hover:text-foreground hover:bg-[hsl(var(--secondary))]"
@@ -67,7 +67,7 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
                 onClick={() => setActiveIcon(item.id)}
                 aria-label={item.label}
               >
-                <Icon size={20} />
+                <Icon size={18} />
               </button>
             </Tooltip>
           )
@@ -75,9 +75,9 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
       </div>
 
       {/* Settings icon */}
-      <Tooltip content="Preferences">
+      <Tooltip content="Preferences" position="right">
         <button
-          className={`w-10 h-10 flex items-center justify-center rounded-md mt-auto transition-colors ${
+          className={`w-9 h-9 flex items-center justify-center rounded-md mt-auto transition-all ${
             activeIcon === "preferences"
               ? "text-[hsl(var(--sidebar-icon-active))] bg-[hsl(var(--sidebar-icon-active-bg))]"
               : "text-[hsl(var(--sidebar-icon))] hover:text-foreground hover:bg-[hsl(var(--secondary))]"
@@ -85,27 +85,27 @@ export function IconSidebar({ activeIcon, setActiveIcon }: IconSidebarProps) {
           onClick={() => setActiveIcon("preferences")}
           aria-label="Preferences"
         >
-          <Settings size={20} />
+          <Settings size={18} />
         </button>
       </Tooltip>
 
       {/* Theme toggle */}
-      <div className="flex flex-col items-center mb-4 mt-4 space-y-4">
-        <Tooltip content={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}>
+      <div className="flex flex-col items-center mb-3 mt-1">
+        <Tooltip content={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"} position="right">
           <button
             onClick={toggleTheme}
-            className="w-10 h-10 flex items-center justify-center text-[hsl(var(--sidebar-icon))] hover:text-foreground hover:bg-[hsl(var(--secondary))] rounded-md transition-colors"
+            className="w-9 h-9 flex items-center justify-center text-[hsl(var(--sidebar-icon))] hover:text-foreground hover:bg-[hsl(var(--secondary))] rounded-md transition-all"
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
         </Tooltip>
       </div>
 
       {/* User avatar */}
-      <Tooltip content="User Profile">
-        <div className="mb-4 mt-2">
-          <div className="w-10 h-10 rounded-full bg-orange-100 overflow-hidden cursor-pointer">
+      <Tooltip content="User Profile" position="right">
+        <div className="mb-4">
+          <div className="w-8 h-8 rounded-full bg-orange-100 overflow-hidden cursor-pointer ring-2 ring-[hsl(var(--sidebar-border))]">
             <Image
               src="/placeholder.svg?height=40&width=40"
               alt="User avatar"

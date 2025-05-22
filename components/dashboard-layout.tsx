@@ -125,7 +125,7 @@ export function DashboardLayout() {
       {/* Main sidebar with transition for collapsing */}
       <div
         className={`transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "w-[280px] opacity-100" : "w-0 opacity-0 overflow-hidden"
+          sidebarVisible ? "w-[260px] opacity-100" : "w-0 opacity-0 overflow-hidden"
         }`}
       >
         <MainSidebar activeSection={activeIcon} />
