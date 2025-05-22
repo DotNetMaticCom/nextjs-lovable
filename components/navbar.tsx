@@ -22,8 +22,13 @@ import {
   Globe,
   Shield,
   AlertCircle,
+  Palette,
+  Sun,
+  Moon,
+  Check,
 } from "lucide-react"
 import Image from "next/image"
+import { useTheme } from "./theme-provider"
 
 type NavbarProps = {
   toggleSidebar: () => void
@@ -31,18 +36,31 @@ type NavbarProps = {
 }
 
 export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
+  const { theme, colorScheme, toggleTheme, setColorScheme } = useTheme()
+
   const [searchFocused, setSearchFocused] = useState(false)
   const [searchExpanded, setSearchExpanded] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [helpMenuOpen, setHelpMenuOpen] = useState(false)
   const [moduleMenuOpen, setModuleMenuOpen] = useState(false)
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
 
   const searchRef = useRef<HTMLDivElement>(null)
   const notificationsRef = useRef<HTMLDivElement>(null)
   const userMenuRef = useRef<HTMLDivElement>(null)
   const helpMenuRef = useRef<HTMLDivElement>(null)
   const moduleMenuRef = useRef<HTMLDivElement>(null)
+  const themeMenuRef = useRef<HTMLDivElement>(null)
+
+  // Color schemes
+  const colorSchemes = [
+    { id: "default", name: "Default", color: "bg-[hsl(142,70%,30%)]" },
+    { id: "forest", name: "Forest", color: "bg-[hsl(142,70%,30%)]" },
+    { id: "ocean", name: "Ocean", color: "bg-[hsl(200,70%,40%)]" },
+    { id: "sunset", name: "Sunset", color: "bg-[hsl(25,70%,45%)]" },
+    { id: "lavender", name: "Lavender", color: "bg-[hsl(270,60%,50%)]" },
+  ]
 
   // Handle clicks outside of dropdowns
   useEffect(() => {
@@ -65,6 +83,11 @@ export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
       // Close module menu dropdown if clicked outside
       if (moduleMenuRef.current && !moduleMenuRef.current.contains(event.target as Node)) {
         setModuleMenuOpen(false)
+      }
+
+      // Close theme menu dropdown if clicked outside
+      if (themeMenuRef.current && !themeMenuRef.current.contains(event.target as Node)) {
+        setThemeMenuOpen(false)
       }
 
       // Close search if expanded and clicked outside
@@ -265,6 +288,101 @@ export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
           )}
         </div>
 
+        {/* Theme customization button */}
+        <div ref={themeMenuRef} className="relative">
+          <button
+            className="w-9 h-9 flex items-center justify-center text-muted-foreground hover:bg-primary hover:bg-opacity-10 hover:text-primary rounded-md transition-colors"
+            onClick={() => {
+              setThemeMenuOpen(!themeMenuOpen)
+              setHelpMenuOpen(false)
+              setNotificationsOpen(false)
+              setUserMenuOpen(false)
+            }}
+            aria-label="Customize Theme"
+          >
+            <Palette size={20} />
+          </button>
+
+          {themeMenuOpen && (
+            <div className="navbar-dropdown w-72">
+              <div className="p-3 border-b border-border">
+                <h3 className="font-medium text-sm">Customize Theme</h3>
+              </div>
+              <div className="p-4">
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium mb-2">Mode</h4>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={toggleTheme}
+                      className={`flex items-center justify-center w-full p-2 rounded-md text-sm ${
+                        theme === "light"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-secondary-foreground"
+                      }`}
+                    >
+                      <Sun size={16} className="mr-2" />
+                      <span>Light</span>
+                    </button>
+                    <button
+                      onClick={toggleTheme}
+                      className={`flex items-center justify-center w-full p-2 rounded-md text-sm ${
+                        theme === "dark"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-secondary-foreground"
+                      }`}
+                    >
+                      <Moon size={16} className="mr-2" />
+                      <span>Dark</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Color Scheme</h4>
+                  <div className="grid grid-cols-5 gap-2 mb-2">
+                    {colorSchemes.map((scheme) => (
+                      <button
+                        key={scheme.id}
+                        onClick={() => setColorScheme(scheme.id as any)}
+                        className={`color-swatch ${scheme.color} ${colorScheme === scheme.id ? "active" : ""}`}
+                        title={scheme.name}
+                        aria-label={`Select ${scheme.name} color scheme`}
+                      >
+                        {colorScheme === scheme.id && <Check size={14} className="text-white m-auto" />}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-5 gap-2">
+                    {colorSchemes.map((scheme) => (
+                      <div key={scheme.id} className="text-xs text-center">
+                        {scheme.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="p-3 border-t border-border bg-secondary">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-primary bg-opacity-10 flex items-center justify-center mr-2">
+                    <Palette size={16} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium">
+                      Current theme:{" "}
+                      {colorScheme === "default"
+                        ? "Default"
+                        : colorScheme.charAt(0).toUpperCase() + colorScheme.slice(1)}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Mode: {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Help button */}
         <div ref={helpMenuRef} className="relative">
           <button
@@ -273,6 +391,7 @@ export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
               setHelpMenuOpen(!helpMenuOpen)
               setNotificationsOpen(false)
               setUserMenuOpen(false)
+              setThemeMenuOpen(false)
             }}
             aria-label="Help"
           >
@@ -325,6 +444,7 @@ export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
               setNotificationsOpen(!notificationsOpen)
               setUserMenuOpen(false)
               setHelpMenuOpen(false)
+              setThemeMenuOpen(false)
             }}
             aria-label="Notifications"
           >
@@ -377,6 +497,7 @@ export function Navbar({ toggleSidebar, sidebarVisible }: NavbarProps) {
               setUserMenuOpen(!userMenuOpen)
               setNotificationsOpen(false)
               setHelpMenuOpen(false)
+              setThemeMenuOpen(false)
             }}
           >
             <div className="w-7 h-7 rounded-full bg-primary bg-opacity-10 overflow-hidden border-2 border-primary mr-0 md:mr-2">
